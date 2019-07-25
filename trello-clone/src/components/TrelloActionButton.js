@@ -2,6 +2,8 @@ import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import { Card, Button } from '@material-ui/core';
 import TextArea from 'react-textarea-autosize';
+import { connect } from "react-redux";
+import { addList,addCard } from "../actions";
 
 class TrelloActionButton extends React.Component{
 
@@ -13,10 +15,10 @@ class TrelloActionButton extends React.Component{
     renderForm = () => {
         
 
-        const list = this.props;
+        const { list } = this.props;
 
-        const placeholder = list ? "Enter a title for this card..." : "Enter list title...";
-        const buttonTitle = list ? "Add Card" : "Add List" ;
+        const placeholder = list ? "Enter list title..." : "Enter a title for this card...";
+        const buttonTitle = list ? "Add List" : "Add Card" ;
 
         return <div>
             <Card style = {{
@@ -39,7 +41,10 @@ class TrelloActionButton extends React.Component{
                 }}> </TextArea>
             </Card>
             <div style = {styles.formButtonGroup}>
-                <Button variant = "contained" style = {{color: "white", backgroundColor: "#5aac44"}}>
+                <Button 
+                onMouseDown = { list ? this.handleAddList : this.handleAddCard } 
+                variant = "contained" 
+                style = {{color: "white", backgroundColor: "#5aac44"}}>
                 {buttonTitle} </Button>
                 <Icon style = {{ marginLeft: 8, cursor: "pointer"}}>close</Icon>
             </div>
@@ -54,7 +59,8 @@ class TrelloActionButton extends React.Component{
 
     closeForm = e => {
         this.setState({
-            formOpen : false
+            formOpen : false,
+            text : ""
         })
     };
 
@@ -62,7 +68,33 @@ class TrelloActionButton extends React.Component{
         this.setState({
             text : e.target.value
         })
-    }
+    };
+
+    handleAddCard = () => {
+        const { dispatch, listID } = this.props;
+        const { text } = this.state;
+
+        if (text) {
+            this.setState({
+                text : ""
+            });
+            dispatch(addCard(listID,text));
+        }
+        return;
+    };
+
+    handleAddList = () => {
+        const { dispatch } = this.props;
+        const { text } = this.state;
+
+        if (text) {
+            this.setState({
+                text : ""
+            });
+            dispatch(addList(text));
+        }
+        return;
+    };
 
     renderAddButton = () => {
         const { list } = this.props
@@ -109,4 +141,4 @@ const styles = {
     }
 }
 
-export default TrelloActionButton;
+export default connect()(TrelloActionButton);
