@@ -3,6 +3,7 @@ import TrelloList from './TrelloList';
 import { connect } from 'react-redux';
 import TrelloActionButton from './TrelloActionButton';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { sort } from "../actions";
 
 class App extends Component{
 
@@ -29,7 +30,16 @@ class App extends Component{
 
   onDragEnd = (result) => {
     const { destination, source, draggableID } = result;
-    
+    if ( !destination ){return};
+    if (destination){
+      this.props.dispatch(sort(
+        source.droppableID,
+        destination.droppableID,
+        source.index,
+        destination.index,
+        draggableID
+      ))
+    }
   };
 
   styles = {
