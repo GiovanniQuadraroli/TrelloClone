@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import TrelloActionButton from './TrelloActionButton';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { sort } from "../actions";
+import  styled from 'styled-components';
 
 class App extends Component{
 
   render () {
     const { lists } = this.props;
-
     return (
       <DragDropContext
       onDragEnd = {this.onDragEnd}
@@ -17,10 +17,11 @@ class App extends Component{
         {
           <div className="App">
           <h2> Prova </h2>
-          <div style = {this.styles.listsContainer}>
-          { lists.map(list => (<TrelloList listID = {list.id} key = {list.id} title = {list.title} cards = {list.cards} />))}
+          <ListContainer>
+          
+          {lists.map(list => (<TrelloList listID = {list.id} key = {list.id} title = {list.title} cards = {list.cards} />))}
           <TrelloActionButton list></TrelloActionButton>
-          </div>
+          </ListContainer>
         </div>
         }
       </DragDropContext>
@@ -29,15 +30,15 @@ class App extends Component{
 
 
   onDragEnd = (result) => {
-    const { destination, source, draggableID } = result;
+    const { destination, source, draggableId } = result;
     if ( !destination ){return};
     if (destination){
       this.props.dispatch(sort(
-        source.droppableID,
-        destination.droppableID,
+        source.droppableId,
+        destination.droppableId,
         source.index,
         destination.index,
-        draggableID
+        draggableId
       ))
     }
   };
@@ -56,6 +57,12 @@ class App extends Component{
   const mapStateToProps = state => ({
     lists : state.lists
   });
+
+  const ListContainer = styled.div`
+    display: flex;
+    flex-direction : row;
+    marginRight : 8px;
+`;
   
 
 export default connect(mapStateToProps)(App);
