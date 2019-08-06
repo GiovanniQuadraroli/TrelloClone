@@ -5,14 +5,6 @@ import { Droppable } from 'react-beautiful-dnd';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
-const ListContainer = styled.div`
-    background-color : #dfe3e6;
-    border-radius : 3px;
-    width : 300px;
-    padding : 8px;
-    height : 100%;
-    margin-right : 8px;
-`;
 
 const TrelloList = ({ title, cards , listID}) => {
     return (
@@ -44,15 +36,33 @@ const TrelloList = ({ title, cards , listID}) => {
     )
 };
 
-const styles = {
-    container : {
-        backgroundColor : "#dfe3e6",
-        borderRadius : 3 ,
-        width : 300 ,
-        padding : 8 ,
-        height : "100%",
-        marginRight : 8
-    }
-};
+const ListContainer = styled.div`
+  background-color: #dfe3e6;
+  border-radius: 3px;
+  width: 300px;
+  padding: 8px;
+  height: 100%;
+  margin: 0 8px 0 0;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  outline-color: blue;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  padding: 5px;
+`;
+
+const TitleContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+`;
+
+
 
 export default TrelloList;
