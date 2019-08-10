@@ -91,6 +91,7 @@ class TrelloCreate extends React.PureComponent{
         const {list} = this.props
         return this.state.formOpen ? (
             <TrelloForm
+                list = {list}
                 text = {text}
                 onChange = {this.handleInputChange}
                 closeForm = {this.closeForm}

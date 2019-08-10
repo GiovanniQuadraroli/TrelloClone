@@ -6,6 +6,8 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd"
 import styled from "styled-components"
 import { sort, setActiveBoard } from "../actions"
 import { Link } from "react-router-dom"
+import { Icon } from "@material-ui/core";
+import { string } from "prop-types";
 
 const ListsContainer = styled.div`
   display: flex;
@@ -20,7 +22,7 @@ class TrelloBoard extends React.PureComponent {
 
     onDragEnd = (result) => {
         const { destination, source, draggableId, type } = result
-
+        
         if(destination) {
             this.props.dispatch(
                 sort(
@@ -37,6 +39,7 @@ class TrelloBoard extends React.PureComponent {
 
     render() {
         const { lists, cards, match, boards } = this.props
+        console.log(this.props)
         const { boardID } = match.params
         const board = boards[boardID]
         if (!board){
@@ -46,7 +49,8 @@ class TrelloBoard extends React.PureComponent {
 
         return (
             <DragDropContext onDragEnd = {this.onDragEnd}>
-                <Link to = "/">Go Back</Link>
+                <Link to = "/">go back</Link>
+                <Icon></Icon>
                 <h2>{board.title}</h2>
                 <Droppable droppableId="all-lists" direction="horizontal" type="list">
                     {
@@ -55,14 +59,13 @@ class TrelloBoard extends React.PureComponent {
                             {...provided.droppableProps}
                             ref = {provided.innerRef}>
                                 {listOrder.map((listID,index) => {
-                                    const list = lists[listID]
+                                    const list = lists[String(listID)]
                                     if(list){
                                         const listCards = list.cards.map(cardID => cards[cardID])
-
-                                        return (
+                                            return (
                                             <TrelloList 
-                                                listID = {list.ID}
-                                                key = {list.ID}
+                                                listID = {list.id}
+                                                key = {list.id}
                                                 title = {list.title}
                                                 cards = {listCards}
                                                 index = {index}

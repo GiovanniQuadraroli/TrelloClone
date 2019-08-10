@@ -27,7 +27,9 @@ const listReducer = (state = initialState,action) => {
         case CONSTANTS.ADD_CARD :
             {
                 const { listID,id } = action.payload
+                console.log("payload",action.payload)
                 const list = state[listID]
+                console.log("valore",listID)
                 list.cards.push(`card-${id}`)
                 return {...state, [listID]: list}
             }
@@ -53,7 +55,7 @@ const listReducer = (state = initialState,action) => {
                 const listStart = state[droppableIdStart]
                 const card = listStart.cards.splice(droppableIndexStart,1);
                 const listEnd = state[droppableIdEnd]
-                listEnd.splice(droppableIndexEnd,0,...card)
+                listEnd.cards.splice(droppableIndexEnd,0,...card)
                 return {
                     ...state,
                     [droppableIdStart] : listStart,
